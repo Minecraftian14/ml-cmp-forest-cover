@@ -1,0 +1,151 @@
+\chapter{Exploratory Data Analysis}\label{ch:exploratory-data-analysis}
+
+This section presents a detailed exploratory data analysis of the dataset.
+We examine data completeness, outlier presence, feature distributions, and sensitivity to extreme values.
+Each subsection summarizes visual analyses and their corresponding insights.
+
+%----------------------------------------------------------------
+
+
+\section{Missing Value Detection}\label{sec:missing-value-detection}
+\importPlotFigure{figures/plot_Missing Value Counts.png}{Missing Value Counts}{eda_missing_counts}
+\textbf{Observation:} There is not a single missing value in any of the columns.\\
+\textbf{Inference:} The dataset is well-structured and complete.
+No imputation, removal, or flagging of missing values is required.
+
+%----------------------------------------------------------------
+
+
+\section{Outlier Detection}\label{sec:outlier-detection}
+\importPlotFigure{figures/plot_Outlier Counts.png}{Outlier Counts}{eda_outlier_counts}
+\textbf{Observation:} \textit{VDTH} and a few others exhibit a small number of values beyond the interquartile range (IQR).\\
+\textbf{Inference:} Since the dataset is beyond 500 k samples, a small number of outliers such as 173 wont matter.
+
+%----------------------------------------------------------------
+
+
+\section{Duplication Detection}\label{sec:duplication-detection}
+\textbf{Observation:} There is not even a single duplicate row in the dataset.\\
+\textbf{Inference:} The dataset is clean in this regard, and there is no need to drop any of the rows.
+
+%----------------------------------------------------------------
+
+
+\section{Feature Distribution (Numerical)}\label{sec:feature-distribution-numerical}
+\importPlotFigure{figures/plot_Feature Distribution (Numerical).png}{Numerical Features Distribution}{feature_distribution_numerical}
+\textbf{Observation:}
+\begin{itemize}
+    \item \textbf{Simplest Gaussians:} \textit{Elev, Slpe, VDTH, H03P}
+    \item \textbf{Skewed Gaussians:}   \textit{HDTH, H09A, H12P, HDFP}
+    \item \textbf{Not Gaussians:}      \textit{Aspc, HDTR}
+\end{itemize}
+\textbf{Inference:} In either case, they can do good with some level of power transformations.
+
+%----------------------------------------------------------------
+
+
+\section{Feature Distribution (Wilderness)}\label{sec:feature-distribution-wilderness}
+\importPlotFigure{figures/plot_Feature Distribution (Wilderness).png}{Wilderness Features Distribution}{feature_distribution_wilderness}
+\textbf{Observation:}
+\begin{itemize}
+    \item \textit{Wilderness Area 1 and 3} is well-balanced.
+    \item \textit{Wilderness Area 2 and 4} are highly skewed.
+\end{itemize}
+\textbf{Inference:}
+Wilderness Area 2 and 4 still have a std of 0.2, which is still nearly half of what Wilderness Area 1.
+No need to process this feature further.
+
+%----------------------------------------------------------------
+
+
+\section{Feature Distribution (Soil Type)}\label{sec:feature-distribution-soil-type}
+\importPlotFigure{figures/plot_Feature Distribution (Soil Type).png}{Soil Type Features Distribution}{feature_distribution_soil_type}
+\textbf{Observation:} Every soil type is pretty well distributed.
+\textbf{Inference:} No actions needed.
+
+%----------------------------------------------------------------
+
+
+\section{Feature Spread (Numerical)}\label{sec:feature-spread-numerical}
+\importPlotFigure{figures/plot_Feature Spread (Numerical).png}{Numerical Feature Spread}{feature_spread_numerical}
+
+\textbf{Observation:}
+\begin{enumerate}
+    \item \textbf{Differing Scales}
+    \begin{itemize}
+        \item \textit{Slpe} has a small scale (1e0:1)
+        \item \textit{Hillshade features} have medium scales (1e0:2)
+        \item \textit{HDTR, and HDFP} have large scales (1e0:3)
+    \end{itemize}
+    \item \textbf{Skewness}
+    \begin{itemize}
+        \item \textit{Slpe, HDTH, HDTR, and HDFP} all show a concentration of data at the lower end.
+        \item \textit{H09A and H12P}are bunched towards the top.
+    \end{itemize}
+    \item \textbf{Outliers}
+    \begin{itemize}
+        \item \textit{VDTH} shows a massive cluster of outliers on the upper end.
+        \item \textit{H12P} There are distinct outliers at the very bottom.
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Inference:}
+\begin{itemize}
+    \item It would be a good idea to standardize the features to introduce stability and prevent overshadowing of the features with smaller scales.
+    \item Will apply power transform to adjust the skewed-ness of the various features identified above.
+    \item As verified earlier, the outlier count is not very high; therefore, they can be set aside.
+\end{itemize}
+
+%----------------------------------------------------------------
+
+
+\section{Outlier Sensitivity (Numerical)}\label{sec:outlier-sensitivity-(numerical)}
+\importPlotFigure{figures/plot_Outlier Sensitivity (Numerical).png}{Numerical Outlier Sensitivity}{outlier_sensitivity_numerical}
+
+\textbf{Observation:}
+\begin{itemize}
+    \item \textbf{Extreme Invariance:} \textit{HDTR and HDFP} show exponentially differentiated presence compared to other features.
+    \item \textbf{Negligible Invariance:} \textit{Slpe and H03P} have no offset to show at all, likely to be the most sensitive to outliers.
+    \item In general, all features lie beyond the threshold.
+\end{itemize}
+\textbf{Inference:} A standard scaler could likely solve all issues.
+
+
+%----------------------------------------------------------------
+
+
+\section{Correlation Matrix}\label{sec:correlation-matrix}
+\importPlotFigure{figures/plot_Correlation Matrix Main Dataset.png}{Correlation Matrix}{correlation}
+
+\textbf{Observation:}
+\begin{enumerate}
+    \item Most features show a moderate correlation, between -.5 to +.5.
+    \item \textit{H03P, and H09A} show some level of negative correlation, around -0.75.
+    \item Other notable relations are shown by \textit{Elev and Slpe}, \textit{Aspc and HDTR}.
+\end{enumerate}
+
+\textbf{Inference:}
+The relationships between the Hillshade features indicate overlapping information.
+However, they don't stand on absolute indifference either.
+Since none of the features are strongly related, let the models create any associations if necessary.
+
+%----------------------------------------------------------------
+
+
+\section{Principal Components}\label{sec:principal-components}
+\importPlotFigure{figures/plot_3D PCA Projection.png}{Principal Components}{pca}
+
+\textbf{Observation:}
+The PCA projection shows a large degree of overlap among most classes, with no clearly separated clusters.
+All the forest cover categories blend into one another, indicating that their feature distributions are similar in the reduced 3D space.
+
+\textbf{Inference:} This overlap suggests that the variables contributing to cover type classification are continuous and interrelated, making sharp boundaries between classes difficult to capture with PCA. It also implies that while PCA captures overall variance, it may not fully separate cover type categories-nonlinear methods (e.g., t-SNE or UMAP) might reveal clearer class distinctions.
+
+%----------------------------------------------------------------
+
+
+\section*{Summary of EDA Findings}
+The dataset exhibits strong completeness and reasonable diversity across both physical and behavioral variables.
+While outliers are present in \textit{Age} and \textit{NCP}, most features show stable distributions.
+The observations suggest that feature scaling and selective outlier handling will enhance model robustness without major data loss.
+
