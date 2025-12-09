@@ -1,0 +1,73 @@
+\chapter{Dataset Description}\label{ch:dataset-description}
+
+The Forest Cover Type dataset consists of tree observations collected from four major regions of the Roosevelt National Forest in Colorado.
+Each observation represents a 30 × 30 meter plot of land, and with over half a million samples, the dataset provides a rich and detailed view of forest landscapes.
+All the features in this dataset are cartographic variables, meaning they come from ground-based measurements rather than satellite or remote-sensing data.
+
+The dataset captures a variety of environmental characteristics such as elevation, slope, aspect, soil type, distance to hydrology or roadways, hillshade values, and other topographical factors.
+It also includes indicators for wilderness areas and soil classifications, both represented using binary one-hot encoded columns.
+These variables help describe how terrain and environmental conditions influence the type of forest vegetation present.
+
+The task is to predict the forest cover type for each 30 × 30 meter plot.
+The ground-truth labels were provided by the US Forest Service (USFS) Region 2 Resource Information System (RIS), which contains expert-verified vegetation data.
+Most of the independent variables originate from the US Geological Survey (USGS) and USFS resources.
+All features are provided in their raw numerical form, and no scaling or normalization is applied beforehand.
+
+This combination of physical terrain measurements and vegetation labels makes the dataset ideal for exploring how environmental factors contribute to forest composition, and it provides a strong foundation for testing a variety of machine learning models.
+
+The features are grouped as follows:
+
+\begin{enumerate}
+    \item \textbf{Topographical / Terrain Features}
+    \begin{itemize}
+        \item \textbf{Elevation}
+        Height of the plot above sea level (in meters).
+        Different trees grow at different altitudes due to temperature and oxygen differences.
+        \item \textbf{Aspect}
+        Direction the slope faces (0–360°).
+        Sunlight exposure affects soil moisture and vegetation patterns.
+        \item \textbf{Slope}
+        Steepness of the terrain (in degrees).
+        Steeper areas may limit tree growth or influence water runoff.
+    \end{itemize}
+    \item \textbf{Distance-Based Features}
+    \begin{itemize}
+        \item \textbf{Horizontal\_Distance\_To\_Hydrology}
+        Horizontal distance to the nearest water source (streams, lakes).
+        Trees differ in their water requirements.
+        \item \textbf{Vertical\_Distance\_To\_Hydrology}
+        Elevation difference relative to nearby water bodies.
+        Lower/sunken areas may hold more moisture.
+        \item \textbf{Horizontal\_Distance\_To\_Roadways}
+        Distance to the nearest road.
+        Roads can alter soil, introduce human disturbance, or influence forest composition.
+        \item \textbf{Horizontal\_Distance\_To\_Fire\_Points}
+        Distance to known wildfire ignition points.
+        Fire-tolerant species may dominate closer regions.
+    \end{itemize}
+    \item \textbf{Hillshade Features}
+    \begin{itemize}
+        \item \textbf{Hillshade\_9am}
+        Amount of sunlight at 9 AM, given terrain orientation.
+        \item \textbf{Hillshade\_Noon}
+        Sunlight at solar noon, usually the brightest time.
+        \item \textbf{Hillshade\_3pm}
+        Sunlight at 3 PM.
+    \end{itemize}
+    \item \textbf{Wilderness Area Indicators}
+    The dataset includes four wilderness areas, encoded as: Wilderness\_Area1, Wilderness\_Area2, Wilderness\_Area3, Wilderness\_Area4.
+    Each is a binary (0/1) feature that indicates whether a plot belongs to that specific protected area.
+    Different wilderness regions have different regulations, climates, soil conditions, and vegetation patterns-which directly influence forest type.
+    \item \textbf{Soil Type Indicators}
+    There are 40 soil types, represented as: Soil\_Type1, Soil\_Type2, …, Soil\_Type40.
+    Each is a binary feature indicating the presence of a specific soil classification.
+    Soil characteristics such as composition, drainage, pH, and nutrient availability strongly affect which tree species can grow.
+\end{enumerate}
+
+%\importTableFigure{tables/data_dataset_statistics.csv}{Dataset Summary Statistics}{data_dataset_statistics}
+%
+%\importTableFigure{tables/data_dataset_info.csv}{Dataset Information (Structure Overview)}{data_dataset_info}
+%
+%\importTableFigure{tables/data_dataset_dtypes.csv}{Feature Data Types}{data_dataset_dtypes}
+%
+%\importTableFigure{tables/data_dataset_describe.csv}{Statistical Summary of Features}{data_dataset_describe}

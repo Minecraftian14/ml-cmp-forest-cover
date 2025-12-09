@@ -1,0 +1,129 @@
+%! Author = Anirudh Sharma, Shreya Gupta
+%! Date = 09-12-2025
+%! Mail Addresses = mcxiv14@gmail.com, shreya.gupta.0624@gmail.com
+
+\documentclass[12pt,a4paper]{report}
+
+% =======================
+% MODULAR SETTINGS
+% =======================
+\input{settings/packages}
+\input{settings/layout}
+\input{settings/header}
+\input{settings/macros}
+
+% =======================
+% BIBLIOGRAPHY
+% =======================
+\usepackage[backend=biber,style=ieee]{biblatex} % IEEE style
+\addbibresource{references.bib}
+
+% =======================
+% DOCUMENT
+% =======================
+\begin{document}
+
+% -----------------------
+% Title Page
+% -----------------------
+{
+    \let\clearpage\relax
+    \input{sections/titlepage}
+}
+
+% -----------------------
+% Abstract
+% -----------------------
+{
+    \let\clearpage\relax
+    \chapter*{Abstract}
+    \addcontentsline{toc}{chapter}{Abstract}
+% \input{sections/abstract}
+
+    \begin{singlespace}
+        In this project, I worked with two different classification datasets: one for predicting whether a person is a
+        smoker based on biosignals, and another for identifying forest cover types from environmental features.
+        The main goal was to apply all the machine learning models that we learned in class, including Logistic Regression,
+        SVM, Neural Networks, K-Means, Agglomerative Clustering, DBSCAN, and Gaussian Mixture Models.
+    \end{singlespace}
+
+    \begin{singlespace}
+        For both datasets, I first performed data preprocessing and exploratory data analysis to understand the structure of the data and the relationships between different features.
+        Then I trained each model separately and evaluated their performance using appropriate metrics for binary and multiclass classification.
+        Finally, I compared all the models to see which ones worked the best and tried to explain the reasons behind their performance.
+    \end{singlespace}
+
+    \begin{singlespace}
+        Overall, the project helped me understand how different algorithms behave on different kinds of datasets, how important preprocessing is, and how model performance can vary depending on the complexity of the data.
+    \end{singlespace}
+
+    \href{https://github.com/Minecraftian14/ml-cmp-forest-cover}{\underline{\textcolor{blue}{https://github.com/Minecraftian14/ml-cmp-forest-cover}}}
+
+}
+
+    % -----------------------
+    % Table of Contents
+    % -----------------------
+    \tableofcontents
+    \newpage
+
+    % -----------------------
+    % Chapters
+    % -----------------------
+    \input{sections/introduction}
+    \input{sections/methodology}
+    \input{sections/dataset}
+%    \input{sections/eda}
+%    \input{sections/preprocessing}
+%    \input{sections/model_training}
+%    \input{sections/results}
+
+    % -----------------------
+    % Conclusion
+    % -----------------------
+    {
+        \chapter*{Conclusion}
+        \addcontentsline{toc}{chapter}{Conclusion}
+        This project successfully demonstrated the application of a structured machine learning pipeline for predicting cardiovascular disease (CVD) risk based on obesity-related parameters.
+    Through systematic data exploration, feature engineering, and model evaluation, the study established a comprehensive framework that balances interpretability, performance, and robustness.
+
+    The results highlight that ensemble-based methods, particularly XGBoost, deliver the best predictive performance, achieving an accuracy of 93.27\% on the held-out test dataset.
+    This improvement was driven by careful preprocessing steps, including Box-Cox transformation for normalization, SMOTE-based oversampling for class balance, and appropriate encoding strategies for categorical variables.
+    The experiments also revealed that retaining certain outliers improved model generalization, reflecting the realistic variability of health-related data.
+
+    Comparative analyses confirmed that while linear models provided valuable interpretability, they lacked the flexibility to capture the complex non-linear interactions among features such as age, dietary habits, and activity levels.
+    Tree-based and boosting algorithms, on the other hand, effectively modeled these relationships and maintained robustness against noise.
+
+    In conclusion, this work demonstrates that thoughtfully engineered preprocessing combined with advanced ensemble learning can yield highly reliable health risk prediction models.
+    The findings underscore the potential of machine learning in preventive healthcare analytics and provide a foundation for future extensions, such as integrating explainability frameworks (e.g., SHAP or LIME) and testing the model on real-world clinical datasets to enhance its applicability and trustworthiness
+    }
+
+    % -----------------------
+    % References
+    % -----------------------
+    {
+        \chapter*{References}
+        \addcontentsline{toc}{chapter}{References}
+        \printbibliography
+
+        \vspace{1em}
+        \section*{Web Resources}
+        \addcontentsline{toc}{section}{Web Resources}
+
+        \begin{itemize}
+            \item \url{https://www.kaggle.com/competitions/ait-511-course-project-1-obesity-risk/overview}
+            \item \url{https://www.kaggle.com/datasets/aravindpcoder/obesity-or-cvd-risk-classifyregressorcluster}
+            \item \url{https://optuna.org/}
+            \item \url{https://xgboost.readthedocs.io/en/stable/}
+            \item \url{https://lightgbm.readthedocs.io/en/latest/}
+            \item \url{https://scikit-learn.org/stable/}
+            \item \url{https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.SMOTE.html}
+            \item \url{https://pandas.pydata.org/docs/}
+            \item \url{https://numpy.org/doc/stable/}
+            \item \url{https://matplotlib.org/stable/contents.html}
+            \item \url{https://seaborn.pydata.org/}
+            \item \url{https://docs.python.org/3/}
+        \end{itemize}
+    }
+
+\end{document}

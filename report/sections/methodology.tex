@@ -1,0 +1,157 @@
+\chapter{Methodology}\label{ch:methodology}
+
+
+
+A typical machine learning workflow usually moves step-by-step: we load the data, explore it, clean and preprocess it, train different models, and then produce the final predictions or outputs.
+
+But in this project, instead of following this straight, one-directional path, I used a more flexible and cycle-based approach inspired by how real data science pipelines are built.
+
+One of the main changes is how visualizations are used.
+Rather than treating plots and graphs as something done only at the beginning during EDA, I included visualization throughout the entire process.
+This means I kept checking the data during preprocessing, during feature transformations, and even while evaluating models.
+Doing this made it easier to catch unusual patterns early and helped me understand how each model responds to different features.
+
+Another important part of the methodology is modularity.
+Since many of the models require similar preprocessing steps or repeated experiment setups, it made sense to organize the code using helper functions and reusable components.
+This not only reduced repetition but also made the experiments more structured and easier to compare.
+Having these small utility methods allowed me to run tests more smoothly and keep the workflow clean and consistent across different models.
+
+
+%\importPlotFigure{figures/plot_Model Comparison.png}{Model Comparison}{model_time_comparison}
+
+
+\section{Dataset Description}\label{sec:dataset-description}
+
+The Forest Cover Type dataset used in this project is provided in a clean and ready-to-use CSV format, which makes the loading process very simple.
+Since the file already contains structured numerical features with no complicated formatting issues, we can import it directly into a DataFrame without requiring any special parsing.
+For this project, the dataset is loaded into a variable named \texttt{ds\_source}.
+
+Unlike some Kaggle competitions, this project does not involve generating submission files, so there is no separate \texttt{ds\_test} dataset.
+All analysis, preprocessing, and model training are performed on the single dataset provided.
+
+After loading the data, one of the first steps is to rename several columns.
+Many of the original feature names are long, especially the distance-related and hillshade features, which makes them harder to read in tables and nearly impossible to display neatly in plots.
+To improve visualization quality and keep the graph labels clean, the following renaming scheme is applied:
+
+\begin{itemize}
+    \item Elevation => Elev
+    \item Aspect => Aspc
+    \item Slope => Slpe
+    \item Horizontal\_Distance\_To\_Hydrology => HDTH
+    \item Vertical\_Distance\_To\_Hydrology => VDTH
+    \item Horizontal\_Distance\_To\_Roadways => HDTR
+    \item Hillshade\_9am => H09A
+    \item Hillshade\_Noon => H12P
+    \item Hillshade\_3pm => H03P
+    \item Horizontal\_Distance\_To\_Fire\_Points => HDFP
+    \item Wilderness\_AreaN => WAN
+    \item Soil\_TypeN => STNN
+\end{itemize}
+
+These shorter names make plots cleaner, tables more compact, and the overall analysis easier to follow.
+While the change is small, it improves consistency across visualizations and helps maintain readability throughout the project.
+
+
+\section{Exploratory Data Analysis (EDA)}\label{sec:exploratory-data-analysis}
+
+The goal of the Exploratory Data Analysis stage is to carefully examine the dataset for any missing values, unusual patterns, extreme observations, or other statistical irregularities.
+Even though this stage may look routine, it serves a much deeper purpose than simply producing charts-it helps reveal important characteristics of the data that directly affect how preprocessing and modeling decisions are made.
+
+To build a solid understanding of the dataset, multiple visualizations and descriptive statistics are used.
+These include distribution plots, correlation checks, and feature comparisons.
+Each plot is chosen deliberately so that it adds something meaningful to our interpretation, rather than being included just for decoration.
+By analyzing these visual patterns and summary statistics, we gain clearer insights into how the features behave, which ultimately guides how we clean the data and prepare it for the machine learning models.
+
+
+\section{Data Preprocessing \& Feature Engineering}\label{sec:data-preprocessing}
+The data preprocessing and feature engineering stage acts as the foundation of the entire machine learning pipeline.
+This is where the raw dataset is converted into a clean, structured, and meaningful form that models can understand and learn from.
+Every transformation applied here is based directly on insights collected during the EDA phase, ensuring that the preprocessing choices are data-driven and not arbitrary.
+
+\subsection{Transformation Strategy}\label{subsec:transformation-strategy}
+The main goal of this stage is to improve both the interpretability and predictive value of the features while keeping the dataset compatible with different types of models.
+Since linear models, neural networks, and tree-based algorithms each have different expectations about input data, the preprocessing strategy is designed to work well across all of them.
+
+\textbf{Numerical Transformations}
+Most numerical features in the dataset (except \textit{Aspc}) showed a skewed Gaussian-like distribution.
+To correct this and make the features more symmetric, we apply a PowerTransformer.
+PowerTransformer uses the Yeo-Johnson transformation, which is similar to Box-Cox but works even when the data contains zeros or negative values.
+The goal is to stabilize variance and make the distribution closer to normal, which helps many models learn more effectively.
+
+\textbf{Categorical Transformations}
+The dataset already comes with its categorical attributes (Wilderness Areas and Soil Types) fully one-hot encoded, so no additional encoding steps are needed.
+This is convenient because it ensures immediate compatibility with all models.
+
+\subsection{Scaling and Standardization}\label{subsec:scaling-and-standardization}
+To prevent features with larger magnitudes from dominating others, normalization is essential.
+After applying the PowerTransformer, the numerical features are already scaled to behave like standardized variables.
+
+Meanwhile, the categorical one-hot encoded columns naturally lie in the 0-1 range, so no further scaling is necessary.
+This creates a balanced feature space suitable for both linear and non-linear models.
+
+
+\section{Setups and Helpers}\label{sec:setups-and-helpers}
+Although this section does not directly appear in the final report output, it plays a foundational role within the notebook implementation.
+Executed immediately after the import statements, it handles several preliminary configurations essential for smooth experimentation.
+These include:
+
+\begin{itemize}
+    \item Initialization of the notification and logging system
+    \item PyPlot and visualization styling adjustments
+    \item Random seed management for reproducibility
+    \item Notebook display and formatting controls
+    \item Model training, saving, and submission automation
+    \item Definition and registration of POP operations
+\end{itemize}
+
+
+\section{Model Training and Evaluation}\label{sec:model-training-and-evaluation}
+The final step of this stage involves constructing the models, tuning their hyperparameters, and evaluating their performance.
+A consistent training framework is used across all algorithms, but with room for model-specific adjustments when needed.
+This balance allows fair comparison while still allowing each model to perform at its best.
+
+\subsection{Data Splitting}\label{subsec:data-splitting}
+Before model training, the fully preprocessed dataset is divided into training (96%) and validation (4%) sets. Stratified sampling is used to maintain the original class proportions in both subsets, ensuring fair evaluation and preventing class imbalance issues during validation.
+
+\subsection{Model Selection and Training}\label{subsec:model-selection-and-training}
+A diverse suite of models was implemented to evaluate various learning paradigms and understand how different algorithms behave on the Forest Cover Type dataset.
+Each model provides a unique perspective on the data and contributes to the overall comparative study:
+
+\begin{itemize}
+    \item Logistic Regression - Served as the baseline linear classifier.
+    It was tested with different regularization strategies (L1, L2) and solver options to assess how well linear decision boundaries can separate the classes.
+    \item Support Vector Machine (SVM) - Explored both linear and non-linear kernels to capture more complex decision boundaries.
+    Despite being computationally heavier, SVM helps evaluate margin-based classification behavior.
+    \item Neural Networks - Implemented as a multi-layer perceptron to model non-linear relationships.
+    It provides insight into how well deep feature interactions can improve predictive power.
+    \item K-Means Clustering - Used in an unsupervised setting to examine natural grouping patterns within the dataset.
+    This helps analyze whether forest cover types form well-separated clusters in feature space.
+    \item Agglomerative Clustering - Offers a hierarchical perspective, allowing us to observe how clusters merge progressively and whether any meaningful structure emerges.
+    \item DBSCAN - Helps detect density-based patterns and potential anomalies.
+    It is particularly useful for understanding irregular or noise-prone regions in the data.
+    \item Gaussian Mixture Models (GMM) - Evaluates whether probabilistic soft clustering aligns with the actual class distribution and highlights overlapping feature regions.
+\end{itemize}
+
+\subsection{Hyperparameter Optimization}\label{subsec:hyperparameter-optimization}
+To ensure that each model performs at its best, Grid Search was used to systematically explore multiple combinations of hyperparameters.
+Grid Search exhaustively evaluates every possible parameter setting defined in the search space.
+
+This is combined with Cross-Validation, where the training set is split into multiple folds.
+Each model is trained on a subset of the folds and validated on the remaining one, cycling through all folds.
+
+This process ensures that the chosen hyperparameters generalize well and are not overfitted to a single train-validation split.
+It also improves the reliability and fairness of comparisons across models.
+
+\subsection{Evaluation Metrics}\label{subsec:evaluation-metrics}
+Since this is a multiclass classification problem, a single score is not enough to judge performance.
+Therefore, several metrics were used to provide a complete picture:
+\begin{itemize}
+    \item Precision – Measures how many of the predicted samples for a class are actually correct.
+    \item Recall – Measures how many actual samples of a class were successfully identified.
+    \item F1-Score – The harmonic mean of precision and recall, useful when dealing with class imbalance or uneven performance across classes.
+    \item Confusion Matrix – Provides a detailed breakdown of correct and incorrect predictions for every class, helping visualize where models struggle.
+\end{itemize}
+These metrics allow fine-grained evaluation and make it easier to compare models not just by accuracy but by their behavior on individual forest cover types.
+
+
+
