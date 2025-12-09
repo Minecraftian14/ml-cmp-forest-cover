@@ -73,7 +73,7 @@
     \input{sections/dataset}
     \input{sections/eda}
     \input{sections/model_training}
-%    \input{sections/results}
+    \input{sections/results}
 
     % -----------------------
     % Conclusion
@@ -81,7 +81,17 @@
     {
         \chapter*{Conclusion}
         \addcontentsline{toc}{chapter}{Conclusion}
-%    TODO
+
+        \begin{singlespace}
+            This project explored a complete machine learning workflow for predicting forest cover types using only cartographic features.
+            Through preprocessing, feature transformation, and systematic evaluation of several supervised and unsupervised models, we gained a clear understanding of how different algorithms interpret this high-dimensional environmental dataset.
+            Among the supervised approaches, neural networks performed best, followed by logistic regression, while svm struggled with the strong non-linear patterns present in the data.
+            Unsupervised models, as expected, could not match supervised accuracy because they lacked access to class labels, but they were still helpful for studying natural group structure.
+            The PowerTransformer played a key role in improving distribution symmetry and model stability, especially for linear methods.
+            Stratified sampling ensured fair evaluation despite class imbalance.
+            Overall, the results highlight the importance of thoughtful preprocessing and the advantages of non-linear models when dealing with complex ecological relationships.
+            The study demonstrates how machine learning can effectively support environmental analysis and provides a foundation for more advanced modeling in the future.
+        \end{singlespace}
     }
 
     % -----------------------

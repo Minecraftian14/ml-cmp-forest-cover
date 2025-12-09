@@ -1,0 +1,101 @@
+\chapter{Results and Discussion}\label{ch:results-and-discussion}
+
+This chapter summarizes how the different models performed on the forest cover dataset, how preprocessing influenced the results, and what insights were gained from observing the behavior of both supervised and unsupervised algorithms.
+
+
+\section{Quantitative Results}\label{sec:quantitative-results}
+All supervised models were evaluated using stratified 2 to 5 fold cross-validation, followed by testing on the held-out test split.
+Metrics such as accuracy, precision, recall, and F1-score were averaged across folds for consistency.
+In general:
+
+\begin{itemize}
+    \item Neural Networks achieved the highest accuracy among supervised models.
+    \item Logistic Regression lagged behind because the feature–target relationships were largely non-linear.
+    \item SVM performed was significantly slower due to dataset size.
+    \item Unsupervised models showed noticeably poorer alignment with the true cover type labels, which is expected since they do not use label information.
+\end{itemize}
+
+A simple ranking based on accuracy placed Neural Networks first, followed by Logistic Regression, then Support Vector Machine.
+Clustering models did not produce competitive class-label predictions but were still useful for exploring natural group structures in the data.
+
+Confusion matrices revealed that certain forest types were harder to separate, particularly those with similar elevations or soil compositions.
+
+
+\section{Impact of Preprocessing and Feature Engineering}\label{sec:impact-of-preprocessing-and-feature-engineering}
+
+\subsection{Feature Transformations}\label{subsec:feature-transformations}
+PowerTransformer significantly improved the symmetry of numerical features.
+This benefited linear models and SVM the most, where accuracy increased by a noticeable margin.
+Neural networks were less sensitive but still showed more stable training behavior after transformation.
+
+\subsection{Outlier Handling}\label{subsec:outlier-handling}
+Outliers were retained because they seemed to reflect natural variation in terrain measurements.
+Removing them did not improve performance and occasionally worsened generalization.
+
+\subsection{Class Imbalance}\label{subsec:class-imbalance}
+Although some classes had fewer samples, stratified splitting helped preserve their proportional presence during training.
+Since no oversampling was applied, metrics like recall and F1-score helped highlight classes that were harder to detect.
+
+\subsection{Feature Encoding}\label{subsec:feature-encoding}
+The dataset already arrived with one-hot encoded wilderness and soil type features.
+This worked well for all supervised models and avoided unnecessary preprocessing overhead.
+
+
+\section{Model Behavior and Interpretations}\label{sec:model-behavior-and-interpretations}
+
+\subsection{Linear Models (Logistic Regression)}\label{subsec:linear-models-(logistic-regression)}
+Logistic Regression was fast and easy to interpret but struggled due to the strong non-linearity in the dataset.
+Terrain and soil features interact in complex ways that simple linear boundaries cannot capture.
+
+\subsection{Kernel-Based Models (SVM)}\label{subsec:kernel-based-models-(svm)}
+SVM could not handle the dataset any better, might require higher degrees.
+Unfortunately, due to computational limitations, that's not possible.
+
+\subsection{Neural Network}\label{subsec:neural-network}
+The neural network performed the best, likely because it can learn multiple levels of non-linear interactions across the cartographic features.
+It balanced accuracy and generalization reasonably well.
+
+\subsection{Unsupervised Models}\label{subsec:unsupervised-models}
+Clustering algorithms (K-Means, Agglomerative, DBSCAN, GMM) were unable to match the performance of supervised models.
+Since they receive no label information, their cluster assignments did not align well with the actual forest cover categories.
+They were more useful for understanding high-level structure rather than classification.
+
+
+\section{Evaluation Metrics Beyond Accuracy}\label{sec:evaluation-metrics-beyond-accuracy}
+Accuracy alone did not capture the full story due to class imbalance.
+Therefore:
+\begin{itemize}
+    \item Precision and Recall revealed that minority classes were consistently harder to predict.
+    \item F1-Score helped identify trade-offs between false positives and false negatives.
+    \item Confusion matrices made misclassification patterns clear, especially for the forest types that shared similar soil or elevation values.
+\end{itemize}
+
+These additional metrics provided a more realistic view of how the models performed across all seven classes.
+
+
+\section{Discussion of Findings}\label{sec:discussion-of-findings}
+
+\subsection{Non-linearity in Terrain Data}\label{subsec:non-linearity-in-terrain-data}
+The stronger performance of Neural Networks indicates that forest cover classification depends heavily on non-linear interactions among elevation, soil type, and distance-based features.
+
+\subsection{Outlier Retention}\label{subsec:outlier-retention}
+Keeping outliers likely helped the models generalize better, since these values reflect natural landscape variation rather than noise.
+
+\subsection{Unsupervised vs. Supervised Models}\label{subsec:unsupervised-vs-supervised-models}
+Clustering methods struggled not because they performed poorly, but because they were simply not designed to leverage label information.
+This highlights the importance of supervised learning for structured prediction tasks like this one.
+
+\subsection{Efficiency vs. Accuracy}\label{subsec:efficiency-vs.-accuracy}
+Neural Networks offered the best accuracy but required more training time.
+Logistic Regression was extremely fast but significantly less accurate.
+SVM balanced both but suffered from scalability issues.
+
+
+\section{Limitations}\label{sec:limitations}
+
+\begin{itemize}
+    \item Dataset imbalance affected recall in certain classes.
+    \item No cost-sensitive evaluation was applied; some misclassifications may be more harmful in real ecological analysis.
+    \item Neural networks remain less interpretable, making it harder to explain decisions directly.
+    \item Clustering models are fundamentally misaligned with the classification goal, which limits their usefulness beyond exploratory purposes.
+\end{itemize}
