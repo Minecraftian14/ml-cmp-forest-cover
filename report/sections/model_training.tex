@@ -1,0 +1,166 @@
+\chapter{Model Training and Evaluation}\label{ch:model-training-and-evaluations}
+
+Following the data preprocessing and feature engineering stages, the next step was to train a set of machine learning models to predict the forest cover type for each 30×30 meter land segment.
+The goal was to explore a wide range of classifiers-spanning simple linear methods to more complex non-linear and probabilistic approaches-to understand how different learning paradigms perform on this multi-class, terrain-based dataset.
+By evaluating multiple algorithm families, we gain a clearer picture of which modeling strategies are best suited for the environmental patterns present in the forest cover data.
+
+
+\section{Experimental Setup and Data Splitting}\label{sec:experimental-setup-and-data-splitting}
+To ensure robust evaluation, the dataset was divided into training and testing subsets using a stratified split to maintain class balance across all partitions.
+
+\begin{itemize}
+    \item 96\% (557771 samples) of the data was allocated for model development (training and validation), and
+    \item 4\% (23241) was held out as a final test set for unbiased evaluation.
+\end{itemize}
+
+During model training, Grid Search was paired with K-Fold Cross-Validation (using k values between 2 and 5) to get more dependable estimates of model performance, especially during hyperparameter tuning.
+This strategy reduces the risk of overfitting and gives a better sense of how well the model generalizes across different portions of the data.
+
+However, because the dataset is extremely large (around 550 thousand samples), running an exhaustive grid search becomes computationally impractical on a local machine.
+As a result, the search space had to be carefully narrowed down-focusing only on the most impactful hyperparameters and limiting the number of combinations explored-to make the tuning process possible.
+
+
+\section{Data Pipelining}\label{sec:data_pipelining}
+A lightweight data pipeline was used to keep the preprocessing steps consistent and reproducible.
+Since only the numerical features required transformation, a ColumnTransformer was created to apply a PowerTransformer to the Gaussian-like features while leaving the one-hot encoded wilderness and soil type features unchanged.
+Using a pipeline ensures that the same preprocessing applied during training is also consistently applied to the validation set, keeping the workflow clean and reliable.
+As for the remaining features, since one hot encoding has already been applied to them, we do not have to create any more transformers.
+
+\subsection{Log Transform}\label{subsec:log-transform}
+The log transform reduces skewness by compressing large values more than small ones.
+It is commonly used when data is strictly positive and has a long right tail.
+However, it cannot be applied to zero or negative values.
+
+\subsection{Box-Cox Transform}\label{subsec:box-cox-transform}
+The Box-Cox transformation is a generalization of the log transform.
+It can automatically choose an optimal power parameter to make the distribution more Gaussian-like.
+It still requires all input values to be strictly positive.
+
+\subsection{Yeo-Johnson Transform}\label{subsec:yeo-jognson-transform}
+The Yeo-Johnson transformation is similar to Box-Cox but allows zero and negative values, making it more flexible.
+It is the version used inside scikit-learn’s PowerTransformer, and it helps stabilize variance and normalize skewed numerical features.
+
+
+\section{Model Selection Strategy}\label{sec:model-selection-strategy}
+The project adopted a comparative modeling framework, where diverse algorithms were evaluated under a consistent preprocessing setup.
+By examining multiple learning paradigms-both supervised and unsupervised-we aimed to understand how different model families interpret the forest cover data and where each method excels or struggles.
+
+\begin{enumerate}
+    \item \textbf{Supervised Classification Models}
+    These algorithms directly learn to predict the forest cover type from labeled training data.
+    \begin{itemize}
+        \item Logistic Regression
+        \item Support Vector Machine (SVM)
+        \item Neural Network (MLP Classifier)
+    \end{itemize}
+
+    \item \textbf{Unsupervised Clustering Models}
+    These models attempt to group the data based on structure alone, without using labels.
+    They are included to explore natural separations in the feature space.
+    \begin{itemize}
+        \item K-Means Clustering
+        \item Agglomerative (Hierarchical) Clustering
+        \item DBSCAN
+        \item Gaussian Mixture Models (GMM)
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Algorithm Overviews}\label{subsec:algorithm-overviews}
+
+\begin{enumerate}
+    \item \textbf{Logistic Regression}
+    Acts as the baseline linear classifier.
+    It models decision boundaries using a linear combination of features and supports regularization (L1/L2) to prevent overfitting.
+    Despite its simplicity, it provides a strong benchmark for comparison.
+
+    \importPlotFigure{figures/plot_Best LR Config.png}{Grid Search on Logistic Regression}{Best_LR_Config}
+    \importPlotFigure{figures/plot_Confusion Matrix_ GSLR.png}{Confusion Matrix Logistic Regression}{ConfusionMatrix_GSLR}
+
+    \item \textbf{Support Vector Machine (SVM)}
+    SVM attempts to find the best separating hyperplane by maximizing the margin between classes.
+    With different kernels (linear, RBF), it can capture both simple and moderately complex decision boundaries.
+
+    \importPlotFigure{figures/plot_Best SV Config.png}{Grid Search on Support Vector Machine}{Best_SV_Config}
+    \importPlotFigure{figures/plot_Confusion Matrix_ GSSV.png}{Confusion Matrix Support Vector Machine}{ConfusionMatrix_GSSV}
+
+    \item \textbf{Neural Network (MLP)}
+    A multi-layer perceptron that learns non-linear relationships through hidden layers and activation functions.
+    Useful for capturing deeper feature interactions that linear models might miss.
+
+    \importPlotFigure{figures/plot_Best MP Config.png}{Grid Search on Neural Network}{Best_MP_Config}
+    \importPlotFigure{figures/plot_Confusion Matrix_ GSMP.png}{Confusion Matrix Neural Network}{ConfusionMatrix_GSMP}
+
+    \item \textbf{K-Means Clustering}
+    Partitions of the dataset into k clusters by minimizing within-cluster variance.
+    Helpful for exploring whether forest types form distinct geometric groups.
+
+    \importPlotFigure{figures/plot_Best KM Config.png}{Grid Search on K-Means Clustering}{Best_KM_Config}
+    \importPlotFigure{figures/plot_Confusion Matrix_ GSKM.png}{Confusion Matrix K-Means Clustering}{ConfusionMatrix_GSKM}
+
+    \item \textbf{Agglomerative Clustering}
+    A hierarchical, bottom-up clustering method that repeatedly merges the closest clusters.
+    It provides structural insight into how data points group together at different similarity thresholds.
+
+    \importPlotFigure{figures/plot_Best AC Config.png}{Grid Search on Agglomerative Clustering}{Best_AC_Config}
+    \importPlotFigure{figures/plot_Confusion Matrix_ GSAC.png}{Confusion Matrix Agglomerative Clustering}{ConfusionMatrix_GSAC}
+
+    \item \textbf{DBSCAN}
+    A density-based algorithm that groups together points in high-density regions while marking isolated points as noise.
+    Useful for identifying irregular or non-spherical clusters.
+
+    \importPlotFigure{figures/plot_Best DS Config.png}{Grid Search on DBSCAN}{Best_DS_Config}
+    \importPlotFigure{figures/plot_Confusion Matrix_ GSDS.png}{Confusion Matrix DBSCAN}{ConfusionMatrix_GSDS}
+
+    \item \textbf{Gaussian Mixture Models (GMM)}
+    A probabilistic clustering method assuming data is generated from overlapping Gaussian distributions.
+    Unlike K-means, it supports soft clustering and can capture complex cluster shapes.
+
+    \importPlotFigure{figures/plot_Best GM Config.png}{Grid Search on Gaussian Mixture Models}{Best_GM_Config}
+    \importPlotFigure{figures/plot_Confusion Matrix_ GSGM.png}{Confusion Matrix Gaussian Mixture Models}{ConfusionMatrix_GSGM}
+
+\end{enumerate}
+
+
+\section{Hyperparameter Optimization}\label{sec:hyperparameter-optimization2}
+Hyperparameter tuning played a critical role in enhancing model performance.
+
+\begin{itemize}
+    \item Regularization strength (for logistic regression),
+    \item \textit{Logistic Regression:} Regularization Type (penalty) and Factor (C), Maximum number of iterations.
+    \item \textit{Support Vector Machine:} Kernel, Degree, Maximum number of iterations.
+    \item \textit{Neural Networks:} Hidden Layer Count and Sizes, Maximum number of iterations.
+    \item \textit{K-Means:} Number of Clusters, Maximum number of iterations.
+    \item \textit{Agglomerative Clustering:} No hyperparameters (Number of final clusters formed is kept the same as the number of targets).
+    \item \textit{Gaussian Mixture Modeling:} Maximum number of iterations.
+    \item \textit{DBScan:} Epsilon, Min Samples.
+\end{itemize}
+
+
+\section{Model Evaluation Metrics}\label{sec:model-evaluation-metrics}
+
+Model performance was primarily evaluated using Accuracy, but since the dataset is not perfectly balanced, relying on accuracy alone would not give a complete picture.
+To address this, additional metrics such as Precision, Recall, and F1-Score were monitored during cross-validation to better understand class-wise performance and identify which forest cover types were harder for the models to distinguish.
+The evaluation setup provided:
+\begin{itemize}
+    \item Cross-validation scores (mean ± standard deviation),
+    \item Final performance on the stratified test split,
+    \item Detailed metric summaries for comparing different model configurations.
+\end{itemize}
+
+To interpret prediction patterns more clearly, confusion matrices were generated, allowing us to inspect misclassifications between specific cover types.
+These visualizations were particularly helpful for understanding overlap among similar vegetation categories.
+
+
+\section{Comparative Analysis and Observations}\label{sec:comparative-analysis-and-observations}
+The performance comparison between supervised and unsupervised models revealed clear distinctions in how well each category handled the forest cover classification task.
+
+\begin{itemize}
+    \item \textbf{Supervised Models (LR, SVM, NN):}\\
+    Since supervised models learn directly from labeled examples, they consistently achieved higher accuracy and more stable predictions across all cross-validation folds.
+    Overall, supervised models had a significant advantage because they explicitly use the ground-truth cover type labels during training, allowing them to learn class-specific patterns that unsupervised algorithms cannot access.
+
+    \item \textbf{Unsupervised Models (KM, AC, DS, GM):}\\
+    Unsupervised models, by design, operate without label information, and therefore their performance was noticeably weaker for the actual classification task.
+    Instead of predicting forest cover types, they attempt to group samples based solely on feature similarities.
+    These results are expected: without access to the true forest cover labels, unsupervised models have no way to learn class boundaries, making them unsuitable as primary predictors.
+\end{itemize}
