@@ -20,6 +20,8 @@ Clustering models did not produce competitive class-label predictions but were s
 
 Confusion matrices revealed that certain forest types were harder to separate, particularly those with similar elevations or soil compositions.
 
+\importPlotFigure{figures/plot_Model Accuracy Comparison.png}{Model Accuracy Comparison}{model_accuracy_comparison}
+
 
 \section{Impact of Preprocessing and Feature Engineering}\label{sec:impact-of-preprocessing-and-feature-engineering}
 
@@ -59,6 +61,8 @@ It balanced accuracy and generalization reasonably well.
 Clustering algorithms (K-Means, Agglomerative, DBSCAN, GMM) were unable to match the performance of supervised models.
 Since they receive no label information, their cluster assignments did not align well with the actual forest cover categories.
 They were more useful for understanding high-level structure rather than classification.
+
+\importPlotFigure{figures/plot_Metric Comparison over Top Models.png}{Metric Comparison over Top Models}{metric_comparison}
 
 
 \section{Evaluation Metrics Beyond Accuracy}\label{sec:evaluation-metrics-beyond-accuracy}
