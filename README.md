@@ -485,7 +485,7 @@ summarizes visual analyses and their corresponding insights.
 ## Missing Value Detection
 
 <figure id="plot:eda_missing_counts" data-latex-placement="ht">
-<img src="../attachments/figures/plot_Missing Value Counts.png"
+<img src="attachments/figures/plot_Missing Value Counts.png"
 style="width:50.0%" />
 <figcaption>Missing Value Counts</figcaption>
 </figure>
@@ -498,7 +498,7 @@ imputation, removal, or flagging of missing values is required.
 ## Outlier Detection
 
 <figure id="plot:eda_outlier_counts" data-latex-placement="ht">
-<img src="../attachments/figures/plot_Outlier Counts.png"
+<img src="attachments/figures/plot_Outlier Counts.png"
 style="width:50.0%" />
 <figcaption>Outlier Counts</figcaption>
 </figure>
@@ -519,8 +519,7 @@ to drop any of the rows.
 
 <figure id="plot:feature_distribution_numerical"
 data-latex-placement="ht">
-<img
-src="../attachments/figures/plot_Feature Distribution (Numerical).png"
+<img src="attachments/figures/plot_Feature Distribution (Numerical).png"
 style="width:50.0%" />
 <figcaption>Numerical Features Distribution</figcaption>
 </figure>
@@ -541,7 +540,7 @@ transformations.
 <figure id="plot:feature_distribution_wilderness"
 data-latex-placement="ht">
 <img
-src="../attachments/figures/plot_Feature Distribution (Wilderness).png"
+src="attachments/figures/plot_Feature Distribution (Wilderness).png"
 style="width:50.0%" />
 <figcaption>Wilderness Features Distribution</figcaption>
 </figure>
@@ -560,8 +559,7 @@ feature further.
 
 <figure id="plot:feature_distribution_soil_type"
 data-latex-placement="ht">
-<img
-src="../attachments/figures/plot_Feature Distribution (Soil Type).png"
+<img src="attachments/figures/plot_Feature Distribution (Soil Type).png"
 style="width:50.0%" />
 <figcaption>Soil Type Features Distribution</figcaption>
 </figure>
@@ -572,7 +570,7 @@ style="width:50.0%" />
 ## Feature Spread (Numerical)
 
 <figure id="plot:feature_spread_numerical" data-latex-placement="ht">
-<img src="../attachments/figures/plot_Feature Spread (Numerical).png"
+<img src="attachments/figures/plot_Feature Spread (Numerical).png"
 style="width:50.0%" />
 <figcaption>Numerical Feature Spread</figcaption>
 </figure>
@@ -616,8 +614,7 @@ style="width:50.0%" />
 
 <figure id="plot:outlier_sensitivity_numerical"
 data-latex-placement="ht">
-<img
-src="../attachments/figures/plot_Outlier Sensitivity (Numerical).png"
+<img src="attachments/figures/plot_Outlier Sensitivity (Numerical).png"
 style="width:50.0%" />
 <figcaption>Numerical Outlier Sensitivity</figcaption>
 </figure>
@@ -637,8 +634,7 @@ style="width:50.0%" />
 ## Correlation Matrix
 
 <figure id="plot:correlation" data-latex-placement="ht">
-<img
-src="../attachments/figures/plot_Correlation Matrix Main Dataset.png"
+<img src="attachments/figures/plot_Correlation Matrix Main Dataset.png"
 style="width:50.0%" />
 <figcaption>Correlation Matrix</figcaption>
 </figure>
@@ -661,7 +657,7 @@ let the models create any associations if necessary.
 ## Principal Components
 
 <figure id="plot:pca" data-latex-placement="ht">
-<img src="../attachments/figures/plot_3D PCA Projection.png"
+<img src="attachments/figures/plot_3D PCA Projection.png"
 style="width:50.0%" />
 <figcaption>Principal Components</figcaption>
 </figure>
@@ -794,13 +790,13 @@ struggles.
     its simplicity, it provides a strong benchmark for comparison.
 
     <figure id="plot:Best_LR_Config" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Best LR Config.png"
+    <img src="attachments/figures/plot_Best LR Config.png"
     style="width:50.0%" />
     <figcaption>Grid Search on Logistic Regression</figcaption>
     </figure>
 
     <figure id="plot:ConfusionMatrix_GSLR" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Confusion Matrix_ GSLR.png"
+    <img src="attachments/figures/plot_Confusion Matrix_ GSLR.png"
     style="width:50.0%" />
     <figcaption>Confusion Matrix Logistic Regression</figcaption>
     </figure>
@@ -811,13 +807,13 @@ struggles.
     moderately complex decision boundaries.
 
     <figure id="plot:Best_SV_Config" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Best SV Config.png"
+    <img src="attachments/figures/plot_Best SV Config.png"
     style="width:50.0%" />
     <figcaption>Grid Search on Support Vector Machine</figcaption>
     </figure>
 
     <figure id="plot:ConfusionMatrix_GSSV" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Confusion Matrix_ GSSV.png"
+    <img src="attachments/figures/plot_Confusion Matrix_ GSSV.png"
     style="width:50.0%" />
     <figcaption>Confusion Matrix Support Vector Machine</figcaption>
     </figure>
@@ -828,13 +824,13 @@ struggles.
     linear models might miss.
 
     <figure id="plot:Best_MP_Config" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Best MP Config.png"
+    <img src="attachments/figures/plot_Best MP Config.png"
     style="width:50.0%" />
     <figcaption>Grid Search on Neural Network</figcaption>
     </figure>
 
     <figure id="plot:ConfusionMatrix_GSMP" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Confusion Matrix_ GSMP.png"
+    <img src="attachments/figures/plot_Confusion Matrix_ GSMP.png"
     style="width:50.0%" />
     <figcaption>Confusion Matrix Neural Network</figcaption>
     </figure>
@@ -844,13 +840,13 @@ struggles.
     forest types form distinct geometric groups.
 
     <figure id="plot:Best_KM_Config" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Best KM Config.png"
+    <img src="attachments/figures/plot_Best KM Config.png"
     style="width:50.0%" />
     <figcaption>Grid Search on K-Means Clustering</figcaption>
     </figure>
 
     <figure id="plot:ConfusionMatrix_GSKM" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Confusion Matrix_ GSKM.png"
+    <img src="attachments/figures/plot_Confusion Matrix_ GSKM.png"
     style="width:50.0%" />
     <figcaption>Confusion Matrix K-Means Clustering</figcaption>
     </figure>
@@ -861,13 +857,13 @@ struggles.
     similarity thresholds.
 
     <figure id="plot:Best_AC_Config" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Best AC Config.png"
+    <img src="attachments/figures/plot_Best AC Config.png"
     style="width:50.0%" />
     <figcaption>Grid Search on Agglomerative Clustering</figcaption>
     </figure>
 
     <figure id="plot:ConfusionMatrix_GSAC" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Confusion Matrix_ GSAC.png"
+    <img src="attachments/figures/plot_Confusion Matrix_ GSAC.png"
     style="width:50.0%" />
     <figcaption>Confusion Matrix Agglomerative Clustering</figcaption>
     </figure>
@@ -877,13 +873,13 @@ struggles.
     for identifying irregular or non-spherical clusters.
 
     <figure id="plot:Best_DS_Config" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Best DS Config.png"
+    <img src="attachments/figures/plot_Best DS Config.png"
     style="width:50.0%" />
     <figcaption>Grid Search on DBSCAN</figcaption>
     </figure>
 
     <figure id="plot:ConfusionMatrix_GSDS" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Confusion Matrix_ GSDS.png"
+    <img src="attachments/figures/plot_Confusion Matrix_ GSDS.png"
     style="width:50.0%" />
     <figcaption>Confusion Matrix DBSCAN</figcaption>
     </figure>
@@ -894,13 +890,13 @@ struggles.
     cluster shapes.
 
     <figure id="plot:Best_GM_Config" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Best GM Config.png"
+    <img src="attachments/figures/plot_Best GM Config.png"
     style="width:50.0%" />
     <figcaption>Grid Search on Gaussian Mixture Models</figcaption>
     </figure>
 
     <figure id="plot:ConfusionMatrix_GSGM" data-latex-placement="ht">
-    <img src="../attachments/figures/plot_Confusion Matrix_ GSGM.png"
+    <img src="attachments/figures/plot_Confusion Matrix_ GSGM.png"
     style="width:50.0%" />
     <figcaption>Confusion Matrix Gaussian Mixture Models</figcaption>
     </figure>
@@ -1010,7 +1006,7 @@ separate, particularly those with similar elevations or soil
 compositions.
 
 <figure id="plot:model_accuracy_comparison" data-latex-placement="ht">
-<img src="../attachments/figures/plot_Model Accuracy Comparison.png"
+<img src="attachments/figures/plot_Model Accuracy Comparison.png"
 style="width:50.0%" />
 <figcaption>Model Accuracy Comparison</figcaption>
 </figure>
@@ -1073,7 +1069,7 @@ high-level structure rather than classification.
 
 <figure id="plot:metric_comparison" data-latex-placement="ht">
 <img
-src="../attachments/figures/plot_Metric Comparison over Top Models.png"
+src="attachments/figures/plot_Metric Comparison over Top Models.png"
 style="width:50.0%" />
 <figcaption>Metric Comparison over Top Models</figcaption>
 </figure>
